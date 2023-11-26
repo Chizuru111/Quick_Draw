@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Image Classifier</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        body {
+            padding-top: 20px;
+            text-align: center;
+        }
+        .form-group {
+            margin: 20px auto;
+            width: 300px;
+        }
+        #predictionResult {
+            margin-top: 20px;
+            font-size: 20px;
+            color: #333;
+        }
+        #imagePreview {
+            margin-top: 20px;
+            max-height: 300px;
+            border: 2px dashed #ddd;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Image Classifier</h1>
+        <p>Upload an image and see the classification result.</p>
+        
+        <form id="uploadForm" enctype="multipart/form-data">
+            <div class="form-group">
+                <input type="file" name="file" required class="form-control-file">
+            </div>
+            <button type="submit" class="btn btn-primary">Upload</button>
+        </form>
+
+        <div id="imagePreview"></div>
+        <div id="predictionResult"></div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#uploadForm').on('submit', function(e) {
+                e.preventDefault();
+                var formData = new FormData(this);
+                $('#predictionResult').text('Processing...');
+                $('#imagePreview').empty();
+
+                $.ajax({
+                    url: '/upload',
+                    type: 'POST',
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function(data) {
+                        var resultText = 'Most Likely Class: ' + data.most_likely_class + 'Raw prediction: ' + data.prediction;
+                        $('#predictionResult').text(resultText);
+                    },
+                    error: function() {
+                        $('#predictionResult').text('Error occurred in prediction.');
+                    }
+                });
+            });
+
+            $("input[type='file']").change(function(e) {
+                var file = e.originalEvent.srcElement.files[0];
+                var reader = new FileReader();
+                reader.onloadend = function() {
+                    $('#imagePreview').html("<img src='" + reader.result + "' class='img-fluid'/>");
+                }
+                reader.readAsDataURL(file);
+            });
+        });
+    </script>
+</body>
+</html>
