@@ -10,16 +10,21 @@ app = Flask(__name__)
 model = tf.keras.models.load_model('../models/final_model')
 animals = ["bat", "bee", "cat", "duck", "elephant", "lion", "octopus", "rabbit", "snail", "whale"]
 
-# Preprocess the uploaded image file to the format expected by the model.
-def preprocess_image(image_bytes):
-    # Load the image
+def preprocess_image(image_bytes, image_size_v):
+    # Load the image from the bytes
     img = Image.open(io.BytesIO(image_bytes))
-    img = img.convert('L')  # Convert to grayscale
-    img = img.resize((64, 64))  # Resize to the expected input size
 
-    # Convert to numpy array and normalize
-    img_array = np.array(img) / 255.0
-    img_array = img_array.reshape((1, 64, 64, 1))  # Reshape for the model
+    # Convert the image to grayscale
+    # 'L' mode means 8-bit pixels, black and white
+    img = img.convert('L')
+
+    # Resize the image to the specified size
+    img = img.resize((image_size_v, image_size_v))
+    img_array = np.array(img)
+    img_array = img_array.astype('uint8')
+
+    # Reshape the array for the model
+    img_array = img_array.reshape((1, image_size_v, image_size_v, 1))
 
     return img_array
 
@@ -29,9 +34,11 @@ def upload_file():
         # Get the file from the request
         file = request.files['file']
 
+        image_size_v = 64
+
         # Preprocess the image and predict
         image_bytes = file.read()
-        preprocessed_image = preprocess_image(image_bytes)
+        preprocessed_image = preprocess_image(image_bytes, image_size_v)
         prediction = model.predict(preprocessed_image)
 
         # Find the index of the max probability
