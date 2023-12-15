@@ -8,6 +8,6 @@ This project was implemented by Anson Ng and Abigail Wolfensohn as a MAIS202 boo
 
 # Features
 
-Our model is a convolutional neural network (CNN) that can determine whether a drawing of an animal is of a bat, bee, cat, duck, elephant, lion, octopus, rabbit, snail, or whale.
+Our model is a convolutional neural network (CNN) that can determine whether a simple doodle of an animal is of a bat, bee, cat, duck, elephant, lion, octopus, rabbit, snail, or whale. At the moment, it has a test accuracy of over 83%.
 
 We have now also implemented a [webapp](https://github.com/Chizuru111/Quick_Draw/tree/main/webapp-ml-model-main) where users can upload a doodle of an animal and the model will determine a most likely match.
