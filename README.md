@@ -1,5 +1,8 @@
 # Quick_Draw
-Our goal is to train a machine learning model to be able to predict what a person is drawing from a list of 10 prompts, based on the qualities of their real-time brushstrokes. Our work will be inspired by Google’s Quick Draw game.
+Our model identifies what animal is being depicted in a drawing from a set of 10 categories!
+<img width="431" alt="Screenshot 2023-11-23 at 6 10 46 PM" src="https://github.com/Chizuru111/Quick_Draw/assets/119353990/273e3ee0-6d87-4409-97d1-781bc433c990">
+
+We have now also implemented a **webapp** where users can upload a doodle of an animal and the model will determine a most likely match.
 
 # Members
-This project is implement by Anson Ng and Abigail Wolfensohn as a bootcamp MAIS202 project
+This project is implemented by Anson Ng and Abigail Wolfensohn as a bootcamp MAIS202 project
